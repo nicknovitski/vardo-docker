@@ -16,6 +16,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.ssh.forward_agent = true
 
+  config.ssh.shell = 'bash --noprofile -l'
+
   config.vm.synced_folder "src", "/home/vagrant/src", create: true
 
   # Provider-specific configuration so you can fine-tune various
