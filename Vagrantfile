@@ -17,9 +17,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.synced_folder 'src', '/home/vagrant/src', create: true
 
-  config.vm.provider 'virtualbox' do |v|
-    v.memory = 1024
-    v.cpus = 2
+  config.vm.provider 'virtualbox' do |vb|
+    vb.memory = 1024
+    vb.cpus = 2
+    # use host's resolver mechanism for DNS requests
+    vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
+    # proxy DNS requests to host's servers
+    vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
   end
 
   config.vm.provision 'ansible' do |ansible|
