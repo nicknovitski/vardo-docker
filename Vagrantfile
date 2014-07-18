@@ -9,6 +9,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = 'jfredett/arch-puppet'
 
   config.ssh.forward_agent = true
+  config.ssh.shell = 'bash --noprofile -l'
 
   config.vm.synced_folder 'src', '/home/vagrant/src', create: true
 
