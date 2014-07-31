@@ -10,6 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.ssh.forward_agent = true
   config.ssh.shell = 'bash --noprofile -l'
+  config.ssh.private_key_path = [ '~/.vagrant.d/insecure_private_key', '~/.ssh/id_rsa' ]
 
   config.vm.synced_folder 'src', '/home/vagrant/src', create: true
 
