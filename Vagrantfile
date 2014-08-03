@@ -29,8 +29,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision 'file', source: 'locale.conf',
                               destination: '~/.config/locale.conf'
 
-  config.vm.provision 'shell', inline: 'yes | pacman -Syu'
-
   config.vm.provision 'puppet' do |p|
     p.manifest_file = 'init.pp'
     p.module_path = 'modules'
