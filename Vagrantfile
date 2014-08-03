@@ -9,7 +9,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = 'jfredett/arch-puppet'
 
   config.ssh.forward_agent = true
-  config.ssh.shell = 'bash --noprofile -l'
+  config.ssh.shell = 'LANG=en_US.UTF-8 bash --noprofile -l'
   config.ssh.private_key_path = [
     '~/.vagrant.d/insecure_private_key',
     '~/.ssh/id_rsa'
@@ -25,9 +25,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # proxy DNS requests to host's servers
     vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
   end
-
-  config.vm.provision 'file', source: 'locale.conf',
-                              destination: '~/.config/locale.conf'
 
   config.vm.provision 'puppet' do |p|
     p.manifest_file = 'init.pp'
