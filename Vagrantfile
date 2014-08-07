@@ -4,16 +4,15 @@
 VAGRANTFILE_API_VERSION = '2'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = 'jfredett/arch-puppet'
+  config.vm.box = 'dduportal/boot2docker'
 
   config.ssh.forward_agent = true
-  config.ssh.shell = 'LANG=en_US.UTF-8 bash --noprofile -l'
   config.ssh.private_key_path = [
     '~/.vagrant.d/insecure_private_key',
     '~/.ssh/id_rsa'
   ]
 
-  config.vm.synced_folder 'src', '/home/vagrant/src', create: true
+  config.vm.synced_folder 'src', '/home/docker/src', create: true
 
   config.vm.provider 'virtualbox' do |vb|
     vb.cpus = host_cpus
@@ -22,11 +21,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
     # proxy DNS requests to host's servers
     vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
-  end
-
-  config.vm.provision 'puppet' do |p|
-    p.manifest_file = 'init.pp'
-    p.module_path = 'modules'
   end
 end
 
