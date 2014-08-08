@@ -12,7 +12,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     '~/.ssh/id_rsa'
   ]
 
-  config.vm.synced_folder 'src', '/home/docker/src', create: true
+  config.vm.synced_folder '~/src', '/home/docker/src', create: true
   config.vm.synced_folder 'bin', '/home/docker/bin'
 
   config.vm.provider 'virtualbox' do |vb|
