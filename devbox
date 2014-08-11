@@ -1,0 +1,9 @@
+#!/bin/sh
+ID=$(docker ps | grep $1/devbox | awk '{ print $1}')
+
+if [ -z "$ID" ]; then
+  docker pull $1/devbox
+  ID=$(docker run --privileged -dit -v /var/run/docker.sock:/var/run/docker.sock -v $SSH_AUTH_SOCK:/home/dev/.ssh/ssh_auth_sock -v /home/docker/src:/home/dev/src $1/devbox)
+fi
+
+docker attach $ID

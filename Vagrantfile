@@ -13,41 +13,27 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   ]
 
   config.vm.synced_folder '~/src', '/home/docker/src', create: true
-  config.vm.synced_folder 'bin', '/home/docker/bin'
 
   config.vm.provider 'virtualbox' do |vb|
-    vb.cpus = host_cpus
     vb.memory = host_megs_ram / 2
     # use host's resolver mechanism for DNS requests
     vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
     # proxy DNS requests to host's servers
     vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
   end
-end
 
-def host_cpus
-  case_host(
-    :osx     => -> { `sysctl -n hw.ncpu`.to_i },
-    :linux   => -> { `nproc`.to_i },
-    :windows => -> { 2 }
-  )
+  config.vm.provision 'file', source: 'devbox', destination: '/home/vagrant/devbox'
 end
 
 def host_megs_ram
-  case_host(
-    :osx     => -> { `sysctl -n hw.memsize`.to_i / 1025 / 1024 },
-    :linux   => -> { `grep 'MemTotal' /proc/meminfo | sed -e 's/MemTotal://' -e 's/ kB//'`.to_i / 1024 },
-    :windows => -> { 2048 }
-  )
-end
-
-def case_host(kwargs)
   case host
   when /darwin/
-    kwargs.fetch(:osx).call
+    `sysctl -n hw.memsize`.to_i / 1025 / 1024
   when /linux/
-    kwargs.fetch(:linux).call
+    `grep 'MemTotal' /proc/meminfo | sed -e 's/MemTotal://' -e 's/ kB//'`.to_i / 1024
   else
+    # sorry, no idea
+    2048
     kwargs.fetch(:windows).call
   end
 end
