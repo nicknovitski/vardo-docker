@@ -22,7 +22,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
   end
 
-  config.vm.provision 'file', source: 'devbox', destination: '/home/vagrant/devbox'
+  config.vm.provision 'file', source: 'devbox', destination: '/home/docker/devbox'
 end
 
 def host_megs_ram
