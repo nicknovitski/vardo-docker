@@ -2,7 +2,6 @@
 ID=$(docker ps | grep $1/devbox | awk '{ print $1}')
 
 if [ -z "$ID" ]; then
-  docker pull $1/devbox
   docker run \
     -v /var/run/docker.sock:/run/docker.sock \
     -v $SSH_AUTH_SOCK:/home/dev/.ssh/ssh_auth_sock \
