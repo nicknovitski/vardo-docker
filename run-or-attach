@@ -1,5 +1,5 @@
 #!/bin/sh
-ID=$(docker ps | grep $1/devbox | awk '{ print $1}')
+ID=$(docker ps | grep $1 | awk '{ print $1}')
 
 if [ -z "$ID" ]; then
   docker run \
@@ -8,7 +8,7 @@ if [ -z "$ID" ]; then
     -v /home/docker/src:/var/shared \
     --rm \
     -it \
-    $1/devbox
+    $1
 else
   docker attach $ID
 fi
