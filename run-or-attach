@@ -2,6 +2,9 @@
 ID=$(docker ps | grep $1 | awk '{ print $1}')
 
 if [ -z "$ID" ]; then
+  chmod 0775 $SSH_AUTH_SOCK
+  gid=$(docker run --rm $1 /bin/id -g)
+  chgrp $gid $SSH_AUTH_SOCK
   docker run \
     -v /var/run/docker.sock:/run/docker.sock \
     -v $SSH_AUTH_SOCK:/home/dev/.ssh/ssh_auth_sock \
